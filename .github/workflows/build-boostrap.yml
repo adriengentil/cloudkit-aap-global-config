@@ -23,7 +23,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u $GITHUB_ACTOR --password-stdin
 
       - name: Create secret file
-        run: echo -n "${{ secrets.AH_TOKEN }}" > /run/secrets/ah_token
+        run: echo -n "${{ secrets.AH_TOKEN }}" > /tmp/ah_token
 
       - name: Build container image
         run: |
