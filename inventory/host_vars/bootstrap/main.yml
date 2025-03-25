@@ -27,7 +27,7 @@ controller_projects:
     wait: true
 
 controller_inventories:
-  - name: global
+  - name: global-inventory
     description: Global inventory
     organization: global
 
