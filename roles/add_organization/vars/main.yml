@@ -40,7 +40,7 @@ controller_inventory_sources:
   - name: "{{ add_organization_organization_name }}-config"
     organization: "{{ add_organization_organization_name }}"
     source: scm
-    source_project: "{{ add_organization_organization_name }}-config"
+    source_project: "{{ add_organization_organization_name }}"
     source_path: "inventory/config.yml"
     inventory: "{{ add_organization_organization_name }}-config"
     overwrite: true
