@@ -27,7 +27,7 @@ jobs:
 
       - name: Build container image
         run: |
-          podman build --secret id=ah_token,src=/run/secrets/ah_token -t ghcr.io/${{ github.repository_owner }}/my-container-image:latest -f Containerfile
+          podman build --secret id=ah_token,src=/tmp/ah_token -t ghcr.io/${{ github.repository_owner }}/my-container-image:latest -f Containerfile
 
       - name: Push container image to GHCR
         run: podman push ghcr.io/${{ github.repository_owner }}/my-container-image:latest
