@@ -1,0 +1,2 @@
+---
+add_organization_git_repo_url: "https://github.com/innabox/app-{{ organization }}.git"

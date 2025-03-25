@@ -1,6 +1,6 @@
 ---
 all:
   hosts:
-    global:
+    config:
       ansible_host: localhost
       ansible_connection: local

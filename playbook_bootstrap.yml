@@ -1,6 +1,6 @@
 ---
 - name: Setup subscription and initial configuration
-  hosts: "bootstrap"
+  hosts: config
   connection: local
   vars:
     rh_username: "{{ lookup('env', 'RH_USERNAME') }}"
@@ -14,7 +14,18 @@
     aap_validate_certs: "{{ lookup('env', 'AAP_VALIDATE_CERTS') | default('true') | bool }}"
   roles:
     - role: register_aap
-  tasks:
-    - name: Call dispatch role
-      ansible.builtin.include_role:
-        name: infra.aap_configuration.dispatch
+    - role: add_organization
+      vars:
+        add_organization_organization_name: global
+        add_organization_git_repo_url: https://github.com/adriengentil/cloudkit-aap-global-config.git
+        controller_user: []
+        controller_credentials:
+          - name: "{{ add_organization_organization_name }}-admin"
+            credential_type: Red Hat Ansible Automation Platform
+            organization: "{{ add_organization_organization_name }}"
+            description: "{{ add_organization_organization_name }} admin account"
+            inputs:
+              host: "{{ aap_hostname }}"
+              username: "{{ aap_username }}"
+              password: "{{ aap_password }}"
+              verify_ssl: "{{ app_validate_certs }}"
