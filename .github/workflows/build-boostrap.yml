@@ -1,0 +1,33 @@
+name: Build and push bootstrap container image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install podman
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+      - name: Create secret file
+        run: echo -n "${{ secrets.AH_TOKEN }}" > /run/secrets/ah_token
+
+      - name: Build container image
+        run: |
+          podman build --secret id=ah_token,src=/run/secrets/ah_token -t ghcr.io/${{ github.repository_owner }}/my-container-image:latest -f Containerfile
+
+      - name: Push container image to GHCR
+        run: podman push ghcr.io/${{ github.repository_owner }}/my-container-image:latest

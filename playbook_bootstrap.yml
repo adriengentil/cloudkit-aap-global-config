@@ -1,0 +1,20 @@
+---
+- name: Setup subscription and initial configuration
+  hosts: "bootstrap"
+  connection: local
+  vars:
+    rh_username: "{{ lookup('env', 'RH_USERNAME') }}"
+    rh_password: "{{ lookup('env', 'RH_PASSWORD') }}"
+    aap_hostname: "{{ lookup('env', 'AAP_HOSTNAME') }}"
+    aap_username: "{{ lookup('env', 'AAP_USERNAME') }}"
+    aap_password: "{{ lookup('env', 'AAP_PASSWORD') }}"
+    controller_hostname: "{{ lookup('env', 'CONTROLLER_HOSTNAME') }}"
+    controller_username: "{{ lookup('env', 'CONTROLLER_USERNAME') }}"
+    controller_password: "{{ lookup('env', 'CONTROLLER_PASSWORD') }}"
+    aap_validate_certs: "{{ lookup('env', 'AAP_VALIDATE_CERTS') | default('true') | bool }}"
+  roles:
+    - role: register_aap
+  tasks:
+    - name: Call dispatch role
+      ansible.builtin.include_role:
+        name: infra.aap_configuration.dispatch

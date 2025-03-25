@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cloudkit-aap-booststrap-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: boostrap
+        image: ghcr.io/${{ github.repository_owner }}/cloudkit-app-bootstrap:latest
+      restartPolicy: Never
+  backoffLimit: 4
