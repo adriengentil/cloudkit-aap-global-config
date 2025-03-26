@@ -59,6 +59,7 @@ controller_templates:
     verbosity: 0
     credentials:
       - "{{ add_organization_organization_name }}-admin"
+      - "Ansible Galaxy"
 
 controller_job_launch:
   name: "{{ add_organization_organization_name }}-config-template"
