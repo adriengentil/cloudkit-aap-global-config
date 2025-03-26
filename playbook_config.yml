@@ -1,15 +1,17 @@
 ---
 - name: Setup AAP global configuration
-  hosts: "global"
+  hosts: config
   connection: local
   vars:
     aap_hostname: "{{ lookup('env', 'AAP_HOSTNAME') }}"
     aap_username: "{{ lookup('env', 'AAP_USERNAME') }}"
     aap_password: "{{ lookup('env', 'AAP_PASSWORD') }}"
     aap_validate_certs: "{{ lookup('env', 'AAP_VALIDATE_CERTS') | default('true') | bool }}"
-  roles:
-    - role: add_organization
-      loop:
-        add_organization_organization_name: cloudkit
-        add_organization_git_repo_url: https://github.com/adriengentil/cloudkit-app.git
 
+  tasks:
+    - name: Add organizations
+      ansible.builtin.include_role:
+        name: add_organization
+      loop:
+        - add_organization_organization_name: cloudkit
+          add_organization_git_repo_url: https://github.com/adriengentil/cloudkit-app.git
