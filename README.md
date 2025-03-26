@@ -19,7 +19,7 @@ ansible-galaxy collection install -r collections/requirements.yml
 
 ## Bootstrap playbook
 
-The boostrap playbook is packaged as a container imag, and it is meant to be run from the kubernetes job, it has 2 main goals:
+The boostrap playbook is packaged as a container image, and it is meant to be run from a kubernetes job, it has 2 main goals:
 
 - Register AAP against Red Hat
 - Create the minimal configuration requird to run the global playbook:
