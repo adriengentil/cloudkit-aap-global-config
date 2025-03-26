@@ -1,2 +1,75 @@
 ---
 add_organization_git_repo_url: "https://github.com/innabox/app-{{ organization }}.git"
+add_organization_admin_controller_password: "{{ lookup('ansible.builtin.password', '/dev/null') }}"
+
+add_organization_admin_user_name: "{{ add_organization_organization_name }}-admin"
+
+aap_organizations:
+  - name: "{{ add_organization_organization_name }}"
+
+controller_user:
+  - name: "{{ add_organization_admin_user_name }}"
+    organization: "{{ add_organization_organization_name }}"
+    password: "{{ add_organization_admin_controller_password }}"
+
+controller_roles:
+  - name: "{{ add_organization_admin_user_name }}"
+    organization: "{{ add_organization_organization_name }}"
+    role: admin
+
+controller_credentials:
+  - name: "{{ add_organization_admin_user_name }}"
+    credential_type: Red Hat Ansible Automation Platform
+    organization: "{{ add_organization_organization_name }}"
+    description: "{{ add_organization_organization_name }} admin account"
+    inputs:
+      host: "{{ aap_hostname }}"
+      username: "{{ add_organization_admin_user_name }}"
+      password: "{{ add_organization_admin_controller_password }}"
+      verify_ssl: false
+
+controller_projects:
+  - name: "{{ add_organization_organization_name }}"
+    description: "{{ add_organization_organization_name }} project"
+    organization: "{{ add_organization_organization_name }}"
+    scm_type: git
+    scm_url: "{{ add_organization_git_repo_url }}"
+    scm_branch: "main"
+    scm_clean: true
+    scm_update_on_launch: true
+    scm_credential: ""
+    update_project: true
+    wait: true
+
+controller_inventories:
+  - name: "{{ add_organization_organization_name }}-aap-config"
+    description: "{{ add_organization_organization_name }} config inventory"
+    organization: "{{ add_organization_organization_name }}"
+
+controller_inventory_sources:
+  - name: "{{ add_organization_organization_name }}-aap-config"
+    organization: "{{ add_organization_organization_name }}"
+    source: scm
+    source_project: "{{ add_organization_organization_name }}"
+    source_path: "inventory/aap_config.yml"
+    inventory: "{{ add_organization_organization_name }}-aap-config"
+    overwrite: true
+    overwrite_vars: true
+    update_cache_timeout: 0
+
+controller_templates:
+  - name: "{{ add_organization_organization_name }}-aap-config"
+    project: "{{ add_organization_organization_name }}"
+    job_type: run
+    playbook: "playbook_{{ add_organization_organization_name }}_aap_config.yml"
+    inventory: "{{ add_organization_organization_name }}-aap-config"
+    execution_environment: "Default execution environment"
+    concurrent_jobs_enabled: false
+    ask_variables_on_launch: false
+    verbosity: 0
+    credentials:
+      - "{{ add_organization_admin_user_name }}"
+
+controller_job_launch:
+  name: "{{ add_organization_organization_name }}-aap-config"
+  organization: "{{ add_organization_organization_name }}"

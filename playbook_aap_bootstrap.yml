@@ -19,6 +19,7 @@
         add_organization_organization_name: global
         add_organization_git_repo_url: https://github.com/adriengentil/cloudkit-aap-global-config.git
         controller_user: []
+        controller_roles: []
         controller_credentials:
           - name: "{{ add_organization_organization_name }}-admin"
             credential_type: Red Hat Ansible Automation Platform
@@ -28,4 +29,4 @@
               host: "{{ aap_hostname }}"
               username: "{{ aap_username }}"
               password: "{{ aap_password }}"
-              verify_ssl: "{{ app_validate_certs }}"
+              verify_ssl: "{{ aap_validate_certs }}"

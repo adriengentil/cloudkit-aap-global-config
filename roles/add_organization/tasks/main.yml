@@ -2,3 +2,8 @@
 - name: Add organization
   ansible.builtin.include_role:
     name: infra.aap_configuration.dispatch
+
+# Required until https://github.com/redhat-cop/infra.aap_configuration/pull/995 is released
+- name: Call dispatch role
+  ansible.builtin.include_role:
+    name: infra.aap_configuration.controller_roles
